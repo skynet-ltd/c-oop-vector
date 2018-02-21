@@ -13,6 +13,8 @@ typedef struct vector
       void *(*unshift)(struct vector *self);
       void *(*get)(struct vector *self, int index);
       void (*clear)(struct vector *self);
+      int (*length)(struct vector *self);
+      int (*cap)(struct vector *self);
 } vector;
 
 void push(vector *self, void *elem)
@@ -86,6 +88,16 @@ void *pop(vector *self)
       return NULL;
 }
 
+int length(vector *self)
+{
+      return self->used;
+}
+
+int cap(vector *self)
+{
+      return self->size;
+}
+
 void clear(vector *self)
 {
       free(self->data);
@@ -110,6 +122,8 @@ vector *new_vector(unsigned int type_size, unsigned int size)
       vec->shift = shift;
       vec->unshift = unshift;
       vec->clear = clear;
+      vec->length = length;
+      vec->cap = cap;
       return vec;
 }
 
